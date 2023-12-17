@@ -6,53 +6,58 @@ function generateHtmlFromTemplate(template, data) {
   let html = template;
 
   // Replace album name
+  html = html.replace(
+    "<title>Album Name</title>",
+    `<title>${data.albumName}</title>`
+  );
   html = html.replace("<h1>Album Name</h1>", `<h1>${data.albumName}</h1>`);
 
   // Process each song and generate the corresponding HTML
   let songsHtml = "";
   data.songs.forEach((song, index) => {
     let songHtml = `
-        <div class="song-item">
-            <h3>${song.title}</h3>
-            <audio controls>
-                <source src="mp3s/${song.mp3Filename}" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
+      <div class="song-item mt-4">
+        <h3>${song.title}</h3>
 
-            <div class="mt-2">
-              <!-- Download Link -->
-              <a href="mp3s/song.mp3" class="btn btn-primary btn-sm" download>Download MP3</a>
-      
-              <!-- Notes Toggle Button -->
-              <button class="btn btn-info btn-sm toggle-btn" type="button" data-bs-toggle="collapse"
-                data-bs-target="#notesSample">Show notes</button>
-      
-              <!-- Lyrics Toggle Button -->
-              <button class="btn btn-secondary btn-sm toggle-btn" type="button" data-bs-toggle="collapse"
-                data-bs-target="#lyricsSample">Show lyrics</button>
-            </div>
-    
-            <!-- Notes Collapsible Section -->
-            <div class="collapse mt-3" id="notesSample">
-              <div class="card card-body">
+        <!-- Audio player -->
+        <audio controls>
+            <source src="mp3s/${song.mp3Filename}.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <div class="mt-2">
+            <!-- Download Link -->
+            <a href="mp3s/${song.mp3Filename}.mp3" class="btn btn-primary btn-sm" download>Download MP3</a>
+
+            <!-- Notes Toggle Button -->
+            <button class="btn btn-info btn-sm toggle-btn" type="button" data-bs-toggle="collapse"
+                data-bs-target="#notesSample${index}">Notes</button>
+
+            <!-- Lyrics Toggle Button -->
+            <button class="btn btn-secondary btn-sm toggle-btn" type="button" data-bs-toggle="collapse"
+                data-bs-target="#lyricsSample${index}" onclick="loadLyrics('${song.mp3Filename}')">Lyrics</button>
+        </div>
+
+        <!-- Notes Collapsible Section -->
+        <div class="collapse mt-3" id="notesSample${index}">
+            <div class="card card-body">
                 ${song.notes}
-              </div>
-            </div>
-      
-            <!-- Lyrics Collapsible Section -->
-            <div class="collapse mt-3" id="lyricsSample">
-              <div class="card card-body">
-              ${song.lyrics}
-              </div>
             </div>
         </div>
-        `;
+
+        <!-- Lyrics Collapsible Section -->
+        <div class="collapse mt-3" id="lyricsSample${index}">
+            <div class="card card-body" id="${song.mp3Filename}-lyrics">
+                <!-- Lyrics will be loaded here -->
+            </div>
+        </div>
+      </div>`;
     songsHtml += songHtml;
   });
 
   // Replace the template song section with the generated songsHtml
   const songSectionRegex =
-    /<!-- Sample song entry -->([\s\S]+?)<!-- You can copy the above div\.song-item for each song in the album and adjust IDs and paths accordingly -->/;
+    /<!-- Sample song entry -->([\s\S]+?)<!-- Repeat the above div.song-item for each song on the album. Remember to adjust the unique IDs and paths. -->/;
   html = html.replace(songSectionRegex, songsHtml);
 
   return html;
@@ -64,7 +69,7 @@ function mergeTemplateWithYamlData(yamlFilename) {
   const yamlData = yaml.load(fs.readFileSync(yamlFilename, "utf-8"));
 
   const mergedHtml = generateHtmlFromTemplate(template, yamlData);
-  fs.writeFileSync("./output.htm", mergedHtml);
+  fs.writeFileSync("./docs/index.htm", mergedHtml);
 
   console.log("HTML file has been generated as 'output.htm'.");
 }
