@@ -1,6 +1,13 @@
 const fs = require("fs");
 const yaml = require("js-yaml");
 
+function padWithZeros(number, width) {
+  const numString = number.toString();
+  const paddingWidth = Math.max(0, width - numString.length);
+  const padding = '0'.repeat(paddingWidth);
+  return padding + numString;
+}
+
 // Function to replace the template with the provided data
 function generateHtmlFromTemplate(template, data) {
   let html = template;
@@ -15,6 +22,7 @@ function generateHtmlFromTemplate(template, data) {
   // Process each song and generate the corresponding HTML
   let songsHtml = "";
   data.songs.forEach((song, index) => {
+    let songIndex = padWithZeros(index + 1, 2);
     let songHtml = `
       <div class="song-item mt-4">
         <h3>${song.title}</h3>
@@ -31,22 +39,22 @@ function generateHtmlFromTemplate(template, data) {
 
             <!-- Notes Toggle Button -->
             <button class="btn btn-info btn-sm toggle-btn" type="button" data-bs-toggle="collapse"
-                data-bs-target="#notesSample${index}">Notes</button>
+                data-bs-target="#notesSample${songIndex}">Notes</button>
 
             <!-- Lyrics Toggle Button -->
             <button class="btn btn-secondary btn-sm toggle-btn" type="button" data-bs-toggle="collapse"
-                data-bs-target="#lyricsSample${index}" onclick="loadLyrics('${song.mp3Filename}')">Lyrics</button>
+                data-bs-target="#lyricsSample${songIndex}" onclick="loadLyrics('${song.mp3Filename}')">Lyrics</button>
         </div>
 
         <!-- Notes Collapsible Section -->
-        <div class="collapse mt-3" id="notesSample${index}">
+        <div class="collapse mt-3" id="notesSample${songIndex}">
             <div class="card card-body">
                 ${song.notes}
             </div>
         </div>
 
         <!-- Lyrics Collapsible Section -->
-        <div class="collapse mt-3" id="lyricsSample${index}">
+        <div class="collapse mt-3" id="lyricsSample${songIndex}">
             <div class="card card-body" id="${song.mp3Filename}-lyrics">
                 <!-- Lyrics will be loaded here -->
             </div>
