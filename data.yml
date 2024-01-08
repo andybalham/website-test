@@ -1,17 +1,8 @@
-albumName: Aye-Aye?
+albumName: FAWM 20XX
 songs:
-  - title: Guinness Greed
-    mp3Filename: 01_guinness_greed
-    notes: "Prompt: /genre greed /subject Guinness /write must include reference to John"
-  - title: Flood's Domain
-    mp3Filename: 02_floods_domain
-    notes: "Prompt: /genre fear /subject floods /write"
-  - title: In The Storm
-    mp3Filename: 03_in_the_storm
-    notes: "Prompt: /genre hate /subject intolerance /generate"
-  - title: Cleansing Rain
-    mp3Filename: 04_cleansing_rain
-    notes: "Prompt: /genre hope /subject clean rivers /generate"
-  - title: Frustration's Tide
-    mp3Filename: 05_frustrations_tide
-    notes: "Prompt: /genre frustration /subject politicians /generate"
+  - title: Song Title 01
+    mp3Filename: song-title-01
+    notes: "Song notes 01"
+  - title: Song Title 02
+    mp3Filename: song-title-02
+    notes: "Song notes 02"

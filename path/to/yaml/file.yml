@@ -1,8 +1,0 @@
-albumName: Aye-Aye?
-songs:
-  - title: Guinness Greed
-    mp3Filename: 01_guinness_greed
-    notes: "Prompt: /genre greed /subject Guinness /write must include reference to John"
-  - title: Flood's Domain
-    mp3Filename: 02_floods_domain
-    notes: "Prompt: /genre fear /subject floods /write"

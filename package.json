@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "gen": "node merge.js data.yml"
+    "test": "node index.js"
   },
   "keywords": [],
   "author": "",
